@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.productosypedidos.gestion_productos_pedidos.controller.ProductoControllerIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.155 s - in com.productosypedidos.gestion_productos_pedidos.controller.ProductoControllerIntegrationTest
