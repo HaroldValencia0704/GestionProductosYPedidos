@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v2  # Configura Java en el entorno de CI
         with:
           java-version: '11'  # Define la versión de Java que estás usando
-          distribution: 'adoptopenjdk'
+          distribution: 'adoptium'
 
       - name: Build with Maven
         run: mvn clean install  # Limpia y compila el proyecto
