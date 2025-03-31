@@ -5,12 +5,13 @@ import com.productosypedidos.gestion_productos_pedidos.utils.JsonUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import com.productosypedidos.gestion_productos_pedidos.service.ProductoService;
+
 import java.util.ArrayList;
 import java.util.List;
-import com.productosypedidos.gestion_productos_pedidos.service.ProductoService;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class ProductoServiceTest {
 
@@ -19,44 +20,71 @@ public class ProductoServiceTest {
 
     @BeforeEach
     void setUp() {
-        // Crear un mock de JsonUtil
         jsonUtilMock = mock(JsonUtil.class);
-
-        // Simular la carga de productos desde JSON
         List<Producto> productosSimulados = new ArrayList<>();
-        productosSimulados.add(new Producto(1,"Producto1", 100.0));
-        productosSimulados.add(new Producto(2,"Producto2", 200.0));
+        productosSimulados.add(new Producto(1, "Producto1", 100.0));
+        productosSimulados.add(new Producto(2, "Producto2", 200.0));
 
-        // Configurar el comportamiento del mock
-        Mockito.when(jsonUtilMock.cargarProductosDesdeJson(Mockito.anyString())).thenReturn(productosSimulados);
+        Mockito.when(jsonUtilMock.leerDesdeJson(Mockito.anyString(), Mockito.eq(Producto.class)))
+                .thenReturn(productosSimulados);
 
-        // Crear el servicio con el mock inyectado
         productoService = new ProductoService(jsonUtilMock);
     }
 
     @Test
     void testObtenerProductos() {
-        // Ejecutar el método
         List<Producto> productos = productoService.obtenerProductos();
-
-        // Verificar que los productos devueltos sean correctos
         assertEquals(2, productos.size(), "Se deben devolver 2 productos.");
         assertEquals("Producto1", productos.get(0).getNombre(), "El primer producto debe ser 'Producto1'.");
     }
 
     @Test
     void testAgregarProducto() {
-        // Crear un producto a agregar
-        Producto nuevoProducto = new Producto(3,"Producto3", 300.0);
-
-        // Ejecutar el método
+        Producto nuevoProducto = new Producto(3, "Producto3", 300.0);
         productoService.agregarProducto(nuevoProducto);
-
-        // Verificar que el método guardarProductosEnJson fue llamado
-        verify(jsonUtilMock).guardarProductosEnJson(Mockito.anyString(), Mockito.anyList());
-
-        // Verificar que el producto fue agregado a la lista en memoria
+        verify(jsonUtilMock).escribirAJson(Mockito.anyString(), Mockito.anyList());
         List<Producto> productos = productoService.obtenerProductos();
         assertEquals(3, productos.size(), "Debe haber 3 productos después de agregar uno nuevo.");
+    }
+
+    @Test
+    void testObtenerProductoPorId() {
+        Producto producto = productoService.obtenerProductoPorId(1);
+        assertNotNull(producto, "El producto con ID 1 debe existir.");
+        assertEquals("Producto1", producto.getNombre(), "El producto debe ser 'Producto1'.");
+    }
+
+    @Test
+    void testObtenerProductoPorId_NoExistente() {
+        Producto producto = productoService.obtenerProductoPorId(99);
+        assertNull(producto, "El producto con ID 99 no debe existir.");
+    }
+
+    @Test
+    void testEliminarProducto() {
+        boolean resultado = productoService.eliminarProducto(1);
+        assertTrue(resultado, "El producto con ID 1 debe eliminarse correctamente.");
+        verify(jsonUtilMock).escribirAJson(Mockito.anyString(), Mockito.anyList());
+    }
+
+    @Test
+    void testEliminarProducto_NoExistente() {
+        boolean resultado = productoService.eliminarProducto(99);
+        assertFalse(resultado, "El producto con ID 99 no existe y no debe eliminarse.");
+    }
+
+    @Test
+    void testActualizarProducto() {
+        Producto productoActualizado = new Producto(1, "Producto1 Modificado", 150.0);
+        boolean resultado = productoService.actualizarProducto(productoActualizado);
+        assertTrue(resultado, "El producto con ID 1 debe actualizarse correctamente.");
+        verify(jsonUtilMock).escribirAJson(Mockito.anyString(), Mockito.anyList());
+    }
+
+    @Test
+    void testActualizarProducto_NoExistente() {
+        Producto productoInexistente = new Producto(99, "Producto99", 999.0);
+        boolean resultado = productoService.actualizarProducto(productoInexistente);
+        assertFalse(resultado, "No se debe actualizar un producto que no existe.");
     }
 }

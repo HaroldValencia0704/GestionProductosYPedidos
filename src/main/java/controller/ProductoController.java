@@ -1,6 +1,6 @@
 package com.productosypedidos.gestion_productos_pedidos.controller;
 
-import com.productosypedidos.gestion_productos_pedidos.model.Producto;
+import com.productosypedidos.gestion_productos_pedidos.model.Producto; // ✅ Importación corregida
 import com.productosypedidos.gestion_productos_pedidos.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

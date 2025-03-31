@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -28,25 +27,31 @@ public class ProductoControllerIntegrationTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void testObtenerProductos() throws Exception {
+        // Insertar un producto antes de probar GET
+        Producto producto = new Producto(1, "Producto Test", 100.0);
+        String productoJson = objectMapper.writeValueAsString(producto);
+
+        mockMvc.perform(post("/productos")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(productoJson))
+                .andExpect(status().isOk());
+
+        // Ahora probar el GET
         mockMvc.perform(get("/productos"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.length()").exists());
+                .andExpect(jsonPath("$").isArray());
     }
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void testAgregarProducto() throws Exception {
-        // Crear un nuevo producto
         Producto nuevoProducto = new Producto(99, "Producto de Prueba", 150.0);
-
-        // Convertir el producto a JSON
         String productoJson = objectMapper.writeValueAsString(nuevoProducto);
 
-        // Realizar la solicitud POST y verificar la respuesta
-        // Añadir .with(csrf()) para manejar el token CSRF
         mockMvc.perform(post("/productos")
-                        .with(csrf()) // Añade el token CSRF
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(productoJson))
                 .andExpect(status().isOk())

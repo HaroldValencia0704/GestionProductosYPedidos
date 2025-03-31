@@ -1,0 +1,11 @@
+com\productosypedidos\gestion_productos_pedidos\GestionProductosPedidosApplication.class
+com\productosypedidos\gestion_productos_pedidos\model\Producto.class
+com\productosypedidos\gestion_productos_pedidos\utils\JsonUtil.class
+com\productosypedidos\gestion_productos_pedidos\model\Usuario.class
+com\productosypedidos\gestion_productos_pedidos\model\Pedido.class
+com\productosypedidos\gestion_productos_pedidos\service\ProductoService.class
+com\productosypedidos\gestion_productos_pedidos\service\PedidoService.class
+com\productosypedidos\gestion_productos_pedidos\config\SecurityConfig.class
+com\productosypedidos\gestion_productos_pedidos\repository\ProductoRepository.class
+com\productosypedidos\gestion_productos_pedidos\controller\ProductoController.class
+com\productosypedidos\gestion_productos_pedidos\controller\PedidoController.class

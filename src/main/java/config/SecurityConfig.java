@@ -32,12 +32,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(org.springframework.security.config.annotation.web.builders.HttpSecurity http) throws Exception {
         http
                 // Habilitar CSRF
-                .csrf(csrf -> csrf
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/productos", "/productos/**").authenticated()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/productos", "/productos/**").authenticated()  // Solo usuarios autenticados pueden acceder a productos
+                        .requestMatchers("/pedidos", "/pedidos/**").hasRole("ADMIN")  // Solo ADMIN puede acceder a pedidos
+                        .anyRequest().authenticated()  // Cualquier otra ruta requiere autenticación
                 )
                 // Configuración de sesiones
                 .sessionManagement(session -> session
