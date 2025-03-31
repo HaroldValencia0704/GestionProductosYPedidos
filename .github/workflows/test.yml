@@ -1,0 +1,30 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main  # Ajusta la rama si usas otra (como 'master')
+  pull_request:
+    branches:
+      - main  # Ajusta la rama si usas otra (como 'master')
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # El sistema operativo donde se ejecutará el flujo de trabajo
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Obtiene el código fuente del repositorio
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2  # Configura Java en el entorno de CI
+        with:
+          java-version: '11'  # Define la versión de Java que estás usando
+          distribution: 'adoptopenjdk'
+
+      - name: Build with Maven
+        run: mvn clean install  # Limpia y compila el proyecto
+
+      - name: Run tests
+        run: mvn test  # Ejecuta las pruebas unitarias
+
