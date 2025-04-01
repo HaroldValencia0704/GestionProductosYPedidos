@@ -13,7 +13,7 @@ public class ProductoService {
     private List<Producto> productos;
     private final JsonUtil jsonUtil;
 
-    // ✅ Usa @Autowired para inyectar JsonUtil correctamente
+    // Usa @Autowired para inyectar JsonUtil correctamente
     @Autowired
     public ProductoService(JsonUtil jsonUtil) {
         this.jsonUtil = jsonUtil;

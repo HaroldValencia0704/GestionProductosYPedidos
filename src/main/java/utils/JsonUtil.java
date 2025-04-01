@@ -17,7 +17,7 @@ public class JsonUtil {
         this.objectMapper = new ObjectMapper();
     }
 
-    // ✅ Método genérico para leer desde JSON
+    // Método genérico para leer desde JSON
     public <T> List<T> leerDesdeJson(String filePath, Class<T> clazz) {
         try {
             File file = new File(filePath);
@@ -31,7 +31,7 @@ public class JsonUtil {
         }
     }
 
-    // ✅ Método genérico para escribir a JSON
+    // Método genérico para escribir a JSON
     public <T> void escribirAJson(String filePath, List<T> datos) {
         try {
             objectMapper.writeValue(new File(filePath), datos);

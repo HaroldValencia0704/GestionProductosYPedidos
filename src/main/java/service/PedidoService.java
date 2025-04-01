@@ -12,7 +12,7 @@ import java.util.Optional;
 public class PedidoService {
     private static final String PEDIDOS_JSON = "src/main/resources/data/pedidos.json";
     private List<Pedido> pedidos;
-    private final JsonUtil jsonUtil;  // ✅ Se inyecta como dependencia
+    private final JsonUtil jsonUtil;  //Se inyecta como dependencia
 
     @Autowired
     public PedidoService(JsonUtil jsonUtil) {
@@ -21,11 +21,11 @@ public class PedidoService {
     }
 
     private List<Pedido> cargarPedidos() {
-        return jsonUtil.leerDesdeJson(PEDIDOS_JSON, Pedido.class);  // ✅ Se usa jsonUtil en lugar de JsonUtil
+        return jsonUtil.leerDesdeJson(PEDIDOS_JSON, Pedido.class);  // Se usa jsonUtil en lugar de JsonUtil
     }
 
     private void guardarPedidos() {
-        jsonUtil.escribirAJson(PEDIDOS_JSON, pedidos);  // ✅ Se usa jsonUtil en lugar de JsonUtil
+        jsonUtil.escribirAJson(PEDIDOS_JSON, pedidos);  // Se usa jsonUtil en lugar de JsonUtil
     }
 
     public List<Pedido> obtenerTodosLosPedidos() {
