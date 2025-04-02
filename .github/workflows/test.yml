@@ -51,7 +51,8 @@ jobs:
       # Publicar los resultados de las pruebas
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: target/surefire-reports/  # Aquí asumo que los resultados de las pruebas están en esa carpeta
+          path: target/surefire-reports/
+  # Aquí asumo que los resultados de las pruebas están en esa carpeta
